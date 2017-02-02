@@ -40,8 +40,11 @@ bot.on('contactRelationUpdate', function (message) {
         var name = message.user ? message.user.name : null;
 
         if(name) {
+            console.log("Processing for name ", name);
+
             var dbRef = admin.database();
             dbRef.child('users').orderByChild('name').equalTo(message.user.name).once('value', function(snapshot) {
+                console.log("Look up successful ", JSON.stringify(snapshot.val()));
                 var userObj = snapshot.val();
                 var systemUserId = userObj.id;
                 var surveyScheduledDateTime = userObj["scheduledDate"];
@@ -59,6 +62,7 @@ bot.on('contactRelationUpdate', function (message) {
 
                 admin.database().ref('/users/'+systemUserId).set(message.address);
             }, function (errorObject) {
+                console.error(JSON.stringify(errorObject));
                 var reply = new builder.Message()
                     .address(message.address)
                     .text("Hello %s... I am Bumble bee an automated survey bot. I see you haven't been registered to survey yet!!", name || 'there');
