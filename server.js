@@ -38,11 +38,11 @@ bot.on('contactRelationUpdate', function (message) {
     if (message.action === 'add') {
         var name = message.user ? message.user.name : null;
 
-        admin.database().ref('/users'+message.user.name).set(message.address);
+        admin.database().ref('/users/'+message.user.name).set(message.address);
 
         var reply = new builder.Message()
             .address(message.address)
-            .text("Hello %s... Thanks for adding me. Say 'hello' to see some great demos. %s", name || 'there');
+            .text("Hello %s... I am Probot an automated survey bot. I will chat with you to collect your responses about the clinical trails", name || 'there');
         bot.send(reply);
     } else {
         // delete their data
