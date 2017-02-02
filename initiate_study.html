@@ -19,8 +19,9 @@
 
     <!--  Light Bootstrap Table core CSS    -->
     <link href="assets/css/light-bootstrap-dashboard.css" rel="stylesheet"/>
-
-
+	
+<link href="assets/css/bootstrap-select.css" rel="stylesheet"/>
+	
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="assets/css/demo.css" rel="stylesheet" />
 
@@ -29,19 +30,14 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
-
 </head>
 <body>
 
 <div class="wrapper">
     <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg">
 
-    <!--
+    <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
 
-        Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
-        Tip 2: you can also add an image using data-image tag
-
-    -->
 
     	<div class="sidebar-wrapper">
             <div class="logo">
@@ -51,8 +47,8 @@
             </div>
 
             <ul class="nav">
-                <li class="active">
-                    <a href="index.html">
+                <li>
+                    <a href="dashboard.html">
                         <i class="pe-7s-graph"></i>
                         <p>Dashboard</p>
                     </a>
@@ -80,7 +76,7 @@
     </div>
 
     <div class="main-panel">
-        <nav class="navbar navbar-default navbar-fixed">
+		<nav class="navbar navbar-default navbar-fixed">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
@@ -89,14 +85,25 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Dashboard</a>
+                    <a class="navbar-brand" href="#">Initiate Study</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-dashboard"></i>
+								<p class="hidden-lg hidden-md">Initiate Study</p>
+                            </a>
+                        </li>
                         <li class="dropdown">
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    ABCD1234
+                                    <i class="fa fa-globe"></i>
                                     <b class="caret hidden-sm hidden-xs"></b>
+                                    <span class="notification hidden-sm hidden-xs">5</span>
+									<p class="hidden-lg hidden-md">
+										5 Notifications
+										<b class="caret"></b>
+									</p>
                               </a>
                               <ul class="dropdown-menu">
                                 <li><a href="#">Notification 1</a></li>
@@ -106,9 +113,20 @@
                                 <li><a href="#">Another notification</a></li>
                               </ul>
                         </li>
+                        <li>
+                           <a href="">
+                                <i class="fa fa-search"></i>
+								<p class="hidden-lg hidden-md">Search</p>
+                            </a>
+                        </li>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
+                        <li>
+                           <a href="">
+                               <p>Cancel</p>
+                            </a>
+                        </li>
                         
                         <li>
                             <a href="#">
@@ -124,85 +142,52 @@
 
         <div class="content">
             <div class="container-fluid">
-            	<div class="row" style="">
-            		<div class="col-md-3">
-            			<div class="card">
-	            			<div class="i-val">II</div>
-            				<div class="i-sub">Phase</div>
-            			</div>
-            		</div>
-            		<div class="col-md-3">
-            			<div class="card">
-	            			<div class="i-val">7</div>
-            				<div class="i-sub">Sites</div>
-            			</div>
-            		</div>
-            		<div class="col-md-3">
-            			<div class="card">
-	            			<div class="i-val">40</div>
-	            			<div class="i-sub">Target Enrollment</div>
-            			</div>
-            		</div>
-            		<div class="col-md-3">
-            			<div class="card">
-	            			<div class="i-val">14</div>
-            				<div class="i-sub">Patients Enrolled</div>
-            			</div>
-            		</div>
-            	</div>
-            	
                 <div class="row">
-                    
-
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="card">
-                            <div class="header">
-                                <h4 class="title">Users Behavior</h4>
-                                <p class="category">24 Hours performance</p>
-                            </div>
-                            <div class="content">
-                                <div id="chartHours" class="ct-chart"></div>
-                                <div class="footer">
-                                    <div class="legend">
-                                        <i class="fa fa-circle text-info"></i> Open
-                                        <i class="fa fa-circle text-danger"></i> Click
-                                        <i class="fa fa-circle text-warning"></i> Click Second Time
-                                    </div>
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="fa fa-history"></i> Updated 3 minutes ago
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                            <div class="content" style="padding-top: 0px;">
+                                <form>
+                                    <div class="row">
+							            <div class="col-md-12">
+							                <div class="form-group">
+							                    <label>Select Questionnaires</label>
+							                    <select class="form-control selectpicker" multiple>
+							                    	<option value="">EQ-5D Health Questionnaire</option>
+							                    	<option value="">Patient Global Assessment of Rheumatoid Athritis Pain(VAS)</option>
+							                    	<option value="">The American College of Theumatology(ACR) Classificaiton of Functional Status in Rheumatoid Arthirites</option>
+							                    </select>
+							                </div>
+							            </div>
+							        </div>
+							        <div class="row">
+							        	 <div class="col-md-12">
+							        	 	
+							                <label>Frequency</label>
+								        	<div class="form-inline">
+											  <div class="form-group">
+											    <input type="text" class="form-control" id="noOfTimes">
+											  </div>
+											  <div class="form-group">
+											    <label for="noOfTimes"> times </label>
+											    <select class="selectFreqPicker">
+											    	<option>Daily</option>
+											    	<option>Weekly</option>
+											    	<option>Monthly</option>
+											    </select>
+											  </div>
+											</div>
+										</div>
+        							</div>
+                                    
 
-
-
-                    <div class="col-md-6">
-                        <div class="card ">
-                            <div class="header">
-                                <h4 class="title">2014 Sales</h4>
-                                <p class="category">All products including Taxes</p>
-                            </div>
-                            <div class="content">
-                                <div id="chartActivity" class="ct-chart"></div>
-
-                                <div class="footer">
-                                    <div class="legend">
-                                        <i class="fa fa-circle text-info"></i> Tesla Model S
-                                        <i class="fa fa-circle text-danger"></i> BMW 5 Series
-                                    </div>
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="fa fa-check"></i> Data information certified
-                                    </div>
-                                </div>
+                                    <button type="submit" class="btn btn-info btn-fill pull-right">Initiate</button>
+                                    <div class="clearfix"></div>
+                                </form>
                             </div>
                         </div>
                     </div>
-
                     
+
                 </div>
             </div>
         </div>
@@ -259,6 +244,7 @@
     <!--  Notifications Plugin    -->
     <script src="assets/js/bootstrap-notify.js"></script>
 
+    <script src="assets/js/bootstrap-select.min.js"></script>
     <!--  Google Maps Plugin    -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
@@ -267,22 +253,12 @@
 
 	<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
 	<script src="assets/js/demo.js"></script>
-
 	<script type="text/javascript">
-    	$(document).ready(function(){
+		$(document).ready(function(){
+			$('.selectpicker').selectpicker();
+			$('.selectFreqPicker').selectpicker();
 
-        	demo.initChartist();
-
-        	$.notify({
-            	icon: 'pe-7s-gift',
-            	message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
-
-            },{
-                type: 'info',
-                timer: 4000
-            });
-
-    	});
+		});
 	</script>
 
 </html>
