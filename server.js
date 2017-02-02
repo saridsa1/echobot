@@ -22,40 +22,31 @@ var connector = new builder.ChatConnector({
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
-//=========================================================
-// Bots Dialogs
-//=========================================================
-/**
- *
- */
-var salesData = {
-    "west": {
-        units: 200,
-        total: "$6,000"
-    },
-    "central": {
-        units: 100,
-        total: "$3,000"
-    },
-    "east": {
-        units: 300,
-        total: "$9,000"
-    }
-};
+var MobilityData = ["I have no problems in walking about", "I have some problems in walking about", "I am confined to Bed"];
+var SelfCareData = ["I have no problems with self care", "I have some problems washing or dressing myself", "I am unable to wash or dress myself"];
+
 
 bot.dialog('/', [
     function (session) {
-        builder.Prompts.choice(session, "Which region would you like sales for?", salesData);
+        builder.Prompts.choice(session, "In terms of your health, how would you best describe the state of your mobility today?", MobilityData);
     },
     function (session, results) {
-        if (results.response) {
-            var region = salesData[results.response.entity];
-            session.send("We sold %(units)d units for a total of %(total)s.", region);
-        } else {
-            session.send("ok");
-        }
+        console.log(results.response);
+        session.send("ok");
+        session.beginDialog('/selfcare');
     }
 ]);
+
+bot.dialog('/selfcare', [
+    function (session) {
+        builder.Prompts.choice(session, "How do you feel about self-care?", SelfCareData);
+    },
+    function (session, results) {
+        console.log(results.response);
+        session.send("ok");
+    }
+]);
+
 server.get('/', restify.serveStatic({
     directory: __dirname,
     default: '/index.html'
