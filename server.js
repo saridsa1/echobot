@@ -3,7 +3,8 @@
  */
 var restify = require('restify');
 var builder = require('botbuilder');
-var admin = require("firebase-admin");
+var admin = require('firebase-admin');
+var moment = require('moment');
 
 //=========================================================
 // Bot Setup
@@ -38,12 +39,33 @@ bot.on('contactRelationUpdate', function (message) {
     if (message.action === 'add') {
         var name = message.user ? message.user.name : null;
 
-        admin.database().ref('/users/'+message.user.name).set(message.address);
+        if(name) {
+            var dbRef = admin.database();
+            dbRef.child('users').orderByChild('name').equalTo(message.user.name).once('value', function(snapshot) {
+                var userObj = snapshot.val();
+                var systemUserId = userObj.id;
+                var surveyScheduledDateTime = userObj["scheduledDate"];
 
-        var reply = new builder.Message()
-            .address(message.address)
-            .text("Hello %s... I am Probot an automated survey bot. I will chat with you to collect your responses about the clinical trails", name || 'there');
-        bot.send(reply);
+                var formattedDate = moment(surveyScheduledDateTime, 'DD/MM/YYYY');
+                var reply = new builder.Message()
+                    .address(message.address)
+                    .text("Hello %s... I am Bumble bee an automated survey bot. I see you have been registered to %s", name || 'there', userObj["trailName"]);
+                bot.send(reply);
+
+                reply = new builder.Message()
+                    .address(message.address)
+                    .text("Your next survey is on %s", moment.max(formattedDate));
+                bot.send(reply);
+
+                admin.database().ref('/users/'+systemUserId).set(message.address);
+            }, function (errorObject) {
+                var reply = new builder.Message()
+                    .address(message.address)
+                    .text("Hello %s... I am Bumble bee an automated survey bot. I see you haven't been registered to survey yet!!", name || 'there');
+                bot.send(reply);
+            });
+        }
+
     } else {
         // delete their data
     }
