@@ -1,26 +1,27 @@
 {
-  "name": "echobot",
+  "name": "probot",
   "version": "1.0.0",
-  "description": "A sample bot for getting started with Bot Framework",
+  "description": "A sample bot for demonstrating conversation UI in ePRO process",
   "main": "server.js",
   "scripts": {
     "test": ""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fuselabs/echobot.git"
+    "url": "git+https://github.com/saridsa1/echobot.git"
   },
   "keywords": [
     "botframework"
   ],
-  "author": "Fuse Labs",
+  "author": "Probots",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fuselabs/echobot/issues"
+    "url": "https://github.com/saridsa1/echobot/issues"
   },
-  "homepage": "https://github.com/fuselabs/echobot#readme",
+  "homepage": "https://github.com/saridsa1/echobot#readme",
   "dependencies": {
     "botbuilder": "^3.5.1",
+    "firebase": "^3.6.8",
     "restify": "^4.3.0"
   }
 }
