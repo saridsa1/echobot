@@ -47,10 +47,11 @@ bot.dialog('/selfcare', [
     }
 ]);
 
+server.get('/\/assets\/css\/?.*/', restify.serveStatic({
+    directory: __dirname
+}));
+
 server.get('/', restify.serveStatic({
     directory: __dirname,
     default: '/index.html'
-}));
-server.get('/\/assets\/css\/?.*/', restify.serveStatic({
-    directory: __dirname
 }));
