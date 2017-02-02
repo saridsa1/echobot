@@ -22,6 +22,7 @@
   "dependencies": {
     "botbuilder": "^3.5.1",
     "firebase": "^3.6.8",
+    "firebase-admin": "^4.0.6",
     "restify": "^4.3.0"
   }
 }
