@@ -25,6 +25,17 @@ server.post('/api/messages', connector.listen());
 var MobilityData = ["I have no problems in walking about", "I have some problems in walking about", "I am confined to Bed"];
 var SelfCareData = ["I have no problems with self care", "I have some problems washing or dressing myself", "I am unable to wash or dress myself"];
 
+bot.on('contactRelationUpdate', function (message) {
+    if (message.action === 'add') {
+        var name = message.user ? message.user.name : null;
+        var reply = new builder.Message()
+                .address(message.address)
+                .text("Hello %s... Thanks for adding me. Say 'hello' to see some great demos.", name || 'there', message.address);
+        bot.send(reply);
+    } else {
+        // delete their data
+    }
+});
 
 bot.dialog('/', [
     function (session) {
