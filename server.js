@@ -41,8 +41,8 @@ bot.on('contactRelationUpdate', function (message) {
         admin.database().ref('/users'+message.user.name).set(message.address);
 
         var reply = new builder.Message()
-                .address(message.address)
-                .text("Hello %s... Thanks for adding me. Say 'hello' to see some great demos. %s", name || 'there');
+            .address(message.address)
+            .text("Hello %s... Thanks for adding me. Say 'hello' to see some great demos. %s", name || 'there');
         bot.send(reply);
     } else {
         // delete their data
@@ -53,8 +53,7 @@ bot.dialog('/', [
     function (session) {
         builder.Prompts.choice(session, "In terms of your health, how would you best describe the state of your mobility today?", MobilityData);
     },
-    function (session, results) {
-        console.log(results.response);
+    function (session) {
         session.send("ok");
         session.beginDialog('/selfcare');
     }
