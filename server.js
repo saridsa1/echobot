@@ -42,7 +42,7 @@ bot.on('contactRelationUpdate', function (message) {
         if(name) {
             console.log("Processing for name ", name);
 
-            admin.database().ref('/users').equalTo(message.user.name).once('value', function(snapshot) {
+            admin.database().ref('/users').orderByChild('name').equalTo(name).once('value', function(snapshot) {
                 console.log("Look up successful ", JSON.stringify(snapshot.val()));
                 var userObj = snapshot.val();
                 var systemUserId = userObj.id;
