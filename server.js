@@ -51,6 +51,6 @@ server.get('/', restify.serveStatic({
     directory: __dirname,
     default: '/index.html'
 }));
-server.get('/\/docs\/assets\/?.*/', restify.serveStatic({
+server.get('/\/assets\/?.*/', restify.serveStatic({
     directory: "./assets",
 }));
