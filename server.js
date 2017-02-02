@@ -47,7 +47,7 @@ bot.dialog('/selfcare', [
     }
 ]);
 
-server.get('/\/assets\/css\/?.*/', restify.serveStatic({
+server.get(/\/assets\/css\/?.*/, restify.serveStatic({
     directory: __dirname
 }));
 
