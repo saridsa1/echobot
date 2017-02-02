@@ -59,3 +59,16 @@
 .table-upgrade td:nth-child(3){
     text-align: center;
 }
+
+
+
+.i-val{
+	text-align: right;
+	font-size: 36px;
+	font-weight:300;
+	padding: 15px 15px 0px 0px
+}
+.i-sub{
+	text-align: right;
+	padding: 0px 15px 15px 0px;
+}
