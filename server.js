@@ -31,8 +31,8 @@ bot.dialog('/', [
         builder.Prompts.choice(session, "In terms of your health, how would you best describe the state of your mobility today?", MobilityData);
     },
     function (session, results) {
-        console.log(results.response);
-        session.send("ok");
+        var address = JSON.stringify(session.message.address);
+        session.send(address);
         session.beginDialog('/selfcare');
     }
 ]);
