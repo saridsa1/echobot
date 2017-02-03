@@ -114,7 +114,7 @@ function scheduleSurvey(userObject, channelAddress){
                     session.dialogData.form = args ? args.form : {};
                     console.log(session.dialogData.index, JSON.stringify(clinicalTrailQuestionnare));
                     // Prompt user for next field
-                    builder.Prompts.choice(session, questions[session.dialogData.index].QuestionText, questions[session.dialogData.index].Answers);
+                    builder.Prompts.choice(session, clinicalTrailQuestionnare[session.dialogData.index].QuestionText, clinicalTrailQuestionnare[session.dialogData.index].Answers);
                 },
                 function (session, results) {
                     // Save users reply
