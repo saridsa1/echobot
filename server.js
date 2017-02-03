@@ -7,6 +7,7 @@ var admin = require('firebase-admin');
 var moment = require('moment');
 var scheduler = require('node-schedule');
 
+var tempQuestionnaire = require('./SampleDatastructure.json');
 //=========================================================
 // Bot Setup
 //=========================================================
@@ -85,6 +86,35 @@ bot.on('contactRelationUpdate', function (message) {
     }
 });
 
+/**
+ * Back this out if causing issues
+*/
+var webQuestionnaire = tempQuestionnaire['clinicalTrailInfo']['EQ5D'];
+bot.dialog('/', [
+    function (session, args) {
+        // Save previous state (create on first call)
+        session.dialogData.index = args ? args.index : 0;
+        session.dialogData.form = args ? args.form : {};
+        // Prompt user for next field
+        builder.Prompts.choice(session, webQuestionnaire[session.dialogData.index].QuestionText, webQuestionnaire[session.dialogData.index].Answers);
+    },
+    function (session, results) {
+        // Save users reply
+        var field = webQuestionnaire[session.dialogData.index++].field;
+        session.dialogData.form[field] = results.response;
+
+        // Check for end of form
+        if (session.dialogData.index >= webQuestionnaire.length) {
+            session.send("Thank you for your time ! We are done with questionnaire ");
+        } else {
+            // Next field
+            session.send(standardResponses[results.response.index]);
+            session.replaceDialog('/', session.dialogData);
+        }
+    }
+]);
+////
+
 function scheduleSurvey(userObject, channelAddress, systemUserId){
 
     var formattedDate = new Date(moment().add(1, 'm'));
@@ -152,4 +182,9 @@ server.get(/\/?.*/, restify.serveStatic({
 server.get('/', restify.serveStatic({
     directory: __dirname,
     default: '/index.html'
+}));
+
+server.get('/test', restify.serveStatic({
+    directory: __dirname,
+    default: '/test.html'
 }));
