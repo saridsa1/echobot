@@ -5,6 +5,7 @@ var restify = require('restify');
 var builder = require('botbuilder');
 var admin = require('firebase-admin');
 var moment = require('moment');
+var scheduler = require('node-schedule');
 
 //=========================================================
 // Bot Setup
@@ -42,7 +43,7 @@ bot.on('contactRelationUpdate', function (message) {
         if(name) {
             console.log("Processing for name ", name);
 
-            admin.database().ref('/users').orderByChild('name').equalTo(name).once('value', function(snapshot) {
+            admin.database().ref('/root/users').orderByChild('name').equalTo(name).once('value', function(snapshot) {
                 console.log("Look up successful ", JSON.stringify(snapshot.val()));
 
                 var keys = Object.keys(snapshot.val());
@@ -57,12 +58,14 @@ bot.on('contactRelationUpdate', function (message) {
                     .text("Hello %s... I am Bumble bee an automated survey bot. I see you have been registered to %s", name || 'there', userObj["trailName"]);
                 bot.send(message1);
 
-                admin.database().ref('/users/'+systemUserId).update({"channelAddress" : message.address}, function(){
+                admin.database().ref('/root/users/'+systemUserId).update({"channelAddress" : message.address}, function(){
                     console.log("Update successful");
                     var message2 = new builder.Message()
                         .address(message.address)
                         .text("Your next survey is on %s", moment(surveyScheduledDateTime).format("dddd, MMMM Do YYYY, h:mm:ss a"));
                     bot.send(message2);
+
+                    scheduleSurvey(userObj);
                 });
             }, function (errorObject) {
                 console.error(JSON.stringify(errorObject));
@@ -78,25 +81,58 @@ bot.on('contactRelationUpdate', function (message) {
     }
 });
 
-bot.dialog('/', [
-    function (session) {
-        builder.Prompts.choice(session, "In terms of your health, how would you best describe the state of your mobility today?", MobilityData);
-    },
-    function (session) {
-        session.send("ok");
-        session.beginDialog('/selfcare');
-    }
-]);
+function scheduleSurvey(userObject){
 
-bot.dialog('/selfcare', [
-    function (session) {
-        builder.Prompts.choice(session, "How do you feel about self-care?", SelfCareData);
-    },
-    function (session, results) {
-        console.log(results.response);
-        session.send("ok");
-    }
-]);
+    var surveyScheduledDateTime = userObject["scheduledDate"];
+    var formattedDate = new Date(moment(surveyScheduledDateTime).format('YYYY-MM-DD HH:mm:ss'));
+
+    scheduler.Job(userObject["trailName"], formattedDate, function(){
+        console.log("Starting the survey now");
+        /**
+         * "channelAddress" : {
+        "bot" : {
+          "id" : "28:1dd05224-d740-4b09-88ee-407088fb99af",
+          "name" : "Probot"
+        },
+        "channelId" : "skype",
+        "conversation" : {
+          "id" : "29:1xs-gf7hdf_CCZ-1ofskiSziaR6KUrl_kF5ZYj6VCkyg"
+        },
+        "id" : "f:a85adc4f",
+        "serviceUrl" : "https://smba.trafficmanager.net/apis/",
+        "useAuth" : true,
+        "user" : {
+          "id" : "29:1xs-gf7hdf_CCZ-1ofskiSziaR6KUrl_kF5ZYj6VCkyg",
+          "name" : "Satya Suman"
+        }
+      },
+         */
+        bot.beginDialog({
+            to: { address: "Satya Suman", channelId: "skype" , id: "29:1xs-gf7hdf_CCZ-1ofskiSziaR6KUrl_kF5ZYj6VCkyg"},
+            from: { address: "Probot", channelId: "skype", id: "28:1dd05224-d740-4b09-88ee-407088fb99af" }
+        }, '/start');
+
+        bot.dialog('/start', [
+            function (session) {
+                builder.Prompts.choice(session, "In terms of your health, how would you best describe the state of your mobility today?", MobilityData);
+            },
+            function (session) {
+                session.send("ok");
+                session.beginDialog('/selfcare');
+            }
+        ]);
+
+        bot.dialog('/selfcare', [
+            function (session) {
+                builder.Prompts.choice(session, "How do you feel about self-care?", SelfCareData);
+            },
+            function (session, results) {
+                console.log(results.response);
+                session.send("ok");
+            }
+        ]);
+    });
+}
 
 server.get(/\/assets\/?.*/, restify.serveStatic({
     directory: __dirname

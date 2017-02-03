@@ -24,6 +24,7 @@
     "firebase": "^3.6.8",
     "firebase-admin": "^4.0.6",
     "moment": "^2.17.1",
+    "node-schedule": "^1.2.0",
     "restify": "^4.3.0"
   }
 }
