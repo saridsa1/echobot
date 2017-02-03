@@ -105,7 +105,7 @@ function scheduleSurvey(userObject, channelAddress){
 
             //console.log(snapshot.val());
 
-            var questions = clinicalTrailQuestionnare["Questions"];
+            //var questions = clinicalTrailQuestionnare["Questions"];
 
             bot.dialog('/start', [
                 function (session, args) {
@@ -118,11 +118,11 @@ function scheduleSurvey(userObject, channelAddress){
                 },
                 function (session, results) {
                     // Save users reply
-                    var field = questions[session.dialogData.index++].field;
+                    var field = clinicalTrailQuestionnare[session.dialogData.index++].field;
                     session.dialogData.form[field] = results.response;
 
                     // Check for end of form
-                    if (session.dialogData.index >= questions.length) {
+                    if (session.dialogData.index >= clinicalTrailQuestionnare.length) {
                         // Return completed form
                         console.log(session.dialogData.form);
                         session.endDialogWithResult({ response: session.dialogData.form });
