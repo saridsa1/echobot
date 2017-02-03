@@ -95,7 +95,7 @@ function scheduleSurvey(userObject, channelAddress){
     scheduler.scheduleJob(formattedDate, function(){
         console.log("Starting the survey now ", JSON.stringify(userObject));
 
-        bot.beginDialog(channelAddress, '/start', { msgId: userObject.trailName, params: userObject });
+        bot.beginDialog(channelAddress, '/start', { msgId: userObject.trailName, params: userObject, index : 0, form: {} });
 
         admin.database().ref('/root/clinicalTrailInfo/'+userObject.trailID).once('value').then(function(snapshot) {
             var keys = Object.keys(snapshot.val());
