@@ -89,7 +89,8 @@ bot.on('contactRelationUpdate', function (message) {
 /**
  * Back this out if causing issues
 */
-var webQuestionnaire = tempQuestionnaire['clinicalTrailInfo']['EQ5D'];
+console.log(tempQuestionnaire);
+var webQuestionnaire = tempQuestionnaire['root']['clinicalTrailInfo']['EQ5D'];
 bot.dialog('/', [
     function (session, args) {
         // Save previous state (create on first call)
