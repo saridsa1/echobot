@@ -187,5 +187,5 @@ server.get('/', restify.serveStatic({
 
 server.get('/test', restify.serveStatic({
     directory: __dirname,
-    default: '/test.html'
+    default: '/Test.html'
 }));
