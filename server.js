@@ -126,10 +126,9 @@ function scheduleSurvey(userObject, channelAddress, systemUserId){
                         // Return completed form
                         console.log(session.dialogData.form);
 
-                        session.endDialogWithResult({ response: session.dialogData.form });
-
                         admin.database().ref('/root/users/'+systemUserId).update({"QuestionnaireResult" : session.dialogData.form}, function(){
                             session.send("Thank you for your time ! We are done with questionnaire ");
+                            session.endDialogWithResult({ response: session.dialogData.form });
                         })
                     } else {
                         // Next field
