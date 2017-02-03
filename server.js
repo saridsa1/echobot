@@ -58,12 +58,13 @@ bot.on('contactRelationUpdate', function (message) {
                     .text("Hello %s... I am Bumble bee an automated survey bot. I see you have been registered to %s", name || 'there', userObj["trailName"]);
                 bot.send(message1);
 
-                var message2 = new builder.Message()
-                    .address(message.address)
-                    .text("Your next survey is on %s", moment.max(formattedDate));
-                bot.send(message2);
-
-                admin.database().ref('/users/'+systemUserId).set(message.address);
+                snapshot.ref().update({"channelAddress" : message.address}, function(){
+                    console.log("Update successful");
+                    var message2 = new builder.Message()
+                        .address(message.address)
+                        .text("Your next survey is on %s", moment.max(formattedDate));
+                    bot.send(message2);
+                });
             }, function (errorObject) {
                 console.error(JSON.stringify(errorObject));
                 var reply = new builder.Message()
