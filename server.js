@@ -58,7 +58,7 @@ bot.on('contactRelationUpdate', function (message) {
                     .text("Hello %s... I am Bumble bee an automated survey bot. I see you have been registered to %s", name || 'there', userObj["trailName"]);
                 bot.send(message1);
 
-                snapshot.ref().update({"channelAddress" : message.address}, function(){
+                admin.database().ref('/users/'+systemUserId).update({"channelAddress" : message.address}, function(){
                     console.log("Update successful");
                     var message2 = new builder.Message()
                         .address(message.address)
