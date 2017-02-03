@@ -52,7 +52,6 @@ bot.on('contactRelationUpdate', function (message) {
 
                 var surveyScheduledDateTime = userObj["scheduledDate"];
 
-                var formattedDate = moment(surveyScheduledDateTime, 'YYYY-MM-DD HH:mm:ss');
                 var message1 = new builder.Message()
                     .address(message.address)
                     .text("Hello %s... I am Bumble bee an automated survey bot. I see you have been registered to %s", name || 'there', userObj["trailName"]);
@@ -62,7 +61,7 @@ bot.on('contactRelationUpdate', function (message) {
                     console.log("Update successful");
                     var message2 = new builder.Message()
                         .address(message.address)
-                        .text("Your next survey is on %s", moment.max(formattedDate));
+                        .text("Your next survey is on %s", moment(surveyScheduledDateTime).format("dddd, MMMM Do YYYY, h:mm:ss a"));
                     bot.send(message2);
                 });
             }, function (errorObject) {
