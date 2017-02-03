@@ -89,7 +89,7 @@ bot.on('contactRelationUpdate', function (message) {
 
 function scheduleSurvey(userObject, channelAddress){
 
-    var formattedDate = new Date(moment().add(0, 'm'));
+    var formattedDate = new Date(moment().add(1, 'm'));
 
     console.log("SCHEDULING THE SURVEY FOR ", moment(formattedDate).format('YYYY-MM-DD HH:mm:ss'));
     scheduler.scheduleJob(formattedDate, function(){
