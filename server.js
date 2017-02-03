@@ -46,21 +46,22 @@ bot.on('contactRelationUpdate', function (message) {
                 console.log("Look up successful ", JSON.stringify(snapshot.val()));
 
                 var keys = Object.keys(snapshot.val());
-                console.log(keys);
-                var userObj = snapshot.val()[keys[0]];
-                var systemUserId = userObj.id;
+                var systemUserId = keys[0];
+
+                var userObj = snapshot.val()[systemUserId];
+
                 var surveyScheduledDateTime = userObj["scheduledDate"];
 
                 var formattedDate = moment(surveyScheduledDateTime, 'DD/MM/YYYY');
-                var reply = new builder.Message()
+                var message1 = new builder.Message()
                     .address(message.address)
                     .text("Hello %s... I am Bumble bee an automated survey bot. I see you have been registered to %s", name || 'there', userObj["trailName"]);
-                bot.send(reply);
+                bot.send(message1);
 
-                reply = new builder.Message()
+                var message2 = new builder.Message()
                     .address(message.address)
                     .text("Your next survey is on %s", moment.max(formattedDate));
-                bot.send(reply);
+                bot.send(message2);
 
                 admin.database().ref('/users/'+systemUserId).set(message.address);
             }, function (errorObject) {
