@@ -19,7 +19,7 @@ $(document).ready(function(){
 		var times = $modal.find('.ques-times').val();	
 		var freq = $modal.find('.ques-freq').val();
 		
-		db.ref('Studies/' + curr_study +'/questionnaires/'+qId).set({
+		db.ref('root/Studies/' + curr_study +'/questionnaires/'+qId).set({
 		    frequency: freq,
 		    times: times
 		  });
@@ -46,43 +46,45 @@ function updatePage(e){
 
 function initSite(){
 	 db = firebase.database();
-	 db.ref('/Questionnaires').once('value').then(function(snapshot) {
+	 db.ref('root/Questionnaires').once('value').then(function(snapshot) {
   		questionnaires = snapshot.val();
   		var values = Object.values(questionnaires);
   		var keys = Object.keys(questionnaires);
   		var $sl = $('.ques-select select');
+  		var $ql = $('.ques-list>tbody').html("");
   		$sl.append('<option value="0">Select a Questionnaire</option>');
   		$.each(values,function(i,v){
   			$sl.append('<option value="'+keys[i]+'">'+v.name+'</option>');
+  			$ql.append('<tr><td>'+v.name+'</td><td class="td-actions text-right"><button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs"><i class="fa fa-edit"></i></button><button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs"><i class="fa fa-times"></i></button></td></tr>');
   			
-  			db.ref('/Patients').once('value').then(function(snapshot) {
-		  		patients = snapshot.val();
-		  		
-		  		
-		  		db.ref('/Studies').once('value').then(function(snapshot) {
-			  		studies = snapshot.val();
-			  		var keys = Object.keys(studies);
-			  		var $ul = $('.navbar-left>.dropdown>ul');
-			  		$ul.html("");
-			  		$.each(keys,function(i,v){
-			  			$ul.append('<li data-id="'+v+'"><a href="#">'+v+'</a></li>');
-			  		});
-			  		loadStudy(keys[0]);
-  		
-	 			});
-		  		
-		  		
-			 });
   		});
+  		db.ref('root/Patients').once('value').then(function(snapshot) {
+	  		patients = snapshot.val();
+	  		
+	  		
+	  		db.ref('root/Studies').once('value').then(function(snapshot) {
+		  		studies = snapshot.val();
+		  		var keys = Object.keys(studies);
+		  		var $ul = $('.navbar-left>.dropdown>ul');
+		  		var $sl = $('.study-list>tbody').html("");
+		  		$ul.html("");
+		  		$.each(keys,function(i,v){
+		  			$ul.append('<li data-id="'+v+'"><a href="#">'+v+'</a></li>');
+		  			$sl.append('<tr><td>'+v+'</td><td class="td-actions text-right"><button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs"><i class="fa fa-edit"></i></button><button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs"><i class="fa fa-times"></i></button></td></tr>');
+		  		});
+		  		loadStudy(keys[0]);
+	
+ 			});
+	  		
+	  		
+		 });
 	 });
-	 
-	 
-  		
   		
 }
 
 function loadStudy(id){
 	curr_study = id;
+	$('.curr-study').text(id);
 	var study = studies[id];
 	$('.navbar-left>li.dropdown>button').html(id+' <span class="caret hidden-sm hidden-xs"></span>');
 	
@@ -99,6 +101,7 @@ function loadStudy(id){
 	$.each(Object.keys(study.questionnaires),function(i,v){
 		$ul.append('<tr><td>'+questionnaires[v].name+'</td><td>scheduled '+values[i].times+' times '+values[i].frequency+'</td><td class="td-actions text-right"><button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs"><i class="fa fa-times"></i></button></td></tr>');
 		$('.ques-select select>option[value='+v+']').prop('disabled',true);
+		
 	});
 	
 	$ul = $('.ci-patients>.card table>tbody');

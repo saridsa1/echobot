@@ -153,16 +153,14 @@
 	                    <div class="col-md-6">
 	                        <div class="card">
 	                            <div class="header">
-	                                <h4 class="title">Patient Response</h4>
-	                                <p class="category">Metric vs Visits</p>
+	                                <h4 class="title">Patient Response Trend</h4>
+	                                <p class="category">Pain vs Visits</p>
 	                            </div>
 	                            <div class="content">
 	                                <div id="chartHours" class="ct-chart"></div>
 	                                <div class="footer">
 	                                    <div class="legend">
-	                                        <i class="fa fa-circle text-info"></i> Expected
-	                                        <i class="fa fa-circle text-danger"></i> Actual
-	                                        <i class="fa fa-circle text-warning"></i> Placebo
+	                                        <i class="fa fa-circle text-info"></i> Pain
 	                                    </div>
 	                                    <hr>
 	                                    <div class="stats">
@@ -179,6 +177,7 @@
 	                        <div class="card ">
 	                            <div class="header">
 	                                <h4 class="title">Visit Statistics</h4>
+	                                <p class="category">Expected vs Actual</p>
 	                                <p class="category"></p>
 	                            </div>
 	                            <div class="content">
@@ -230,9 +229,51 @@
             	
             	<div class="ci ci-admin">
             		<div class="row">
-            			<div class="col-md-4"></div>
-            			<div class="col-md-4"></div>
-            			<div class="col-md-4"></div>
+            			<div class="col-md-6">
+            				<div class="card ">
+	                            <div class="header">
+	                                <h4 class="title">Questionnaires</h4>
+	                                <p class="category">Backend development</p>
+	                            </div>
+	                            <div class="content">
+	                                <div class="table-full-width">
+	                                    <table class="table ques-list">
+	                                        <tbody></tbody>
+	                                    </table>
+	                                </div>
+	
+	                                <div class="footer">
+	                                    <hr>
+	                                    <div class="stats">
+	                                        <i class="fa fa-history"></i> Updated 3 minutes ago
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+            			</div>
+            			<div class="col-md-6">
+            				<div class="card ">
+	                            <div class="header">
+	                                <h4 class="title">Studies</h4>
+	                                <p class="category">Backend development</p>
+	                            </div>
+	                            <div class="content">
+	                                <div class="table-full-width">
+	                                    <table class="table study-list">
+	                                        <tbody></tbody>
+	                                    </table>
+	                                </div>
+	
+	                                <div class="footer">
+	                                    <hr>
+	                                    <div class="stats">
+	                                        <i class="fa fa-history"></i> Updated 3 minutes ago
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+            			</div>
+            			
             		</div>
             	</div>
             
@@ -260,7 +301,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Assign Questionnaire</h4>
-        <div>for the ABC12345 study</div>
+        <div>for the <span class="curr-proj">&nbsp;</span> study</div>
       </div>
       <div class="modal-body">
          <div class="row">
@@ -307,11 +348,11 @@
 	<script>
 	  // Initialize Firebase
 	  var config = {
-	    apiKey: "AIzaSyCpWvNVDzbiGJ4FLXKXy5OtAZjIwe-o1J4",
-	    authDomain: "probots-a4f78.firebaseapp.com",
-	    databaseURL: "https://probots-a4f78.firebaseio.com",
-	    storageBucket: "probots-a4f78.appspot.com",
-	    messagingSenderId: "1090355274536"
+	    apiKey: "AIzaSyDdVo0_zY8U7j-jCkeqqludi-c8yCa6x00",
+	    authDomain: "probot-d140b.firebaseapp.com",
+	    databaseURL: "https://probot-d140b.firebaseio.com",
+	    storageBucket: "probot-d140b.appspot.com",
+	    messagingSenderId: "599105834411"
 	  };
 	  firebase.initializeApp(config);
 	</script>
