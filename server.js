@@ -109,7 +109,7 @@ bot.dialog('/', [
             session.send("Thank you for your time ! We are done with questionnaire ");
         } else {
             // Next field
-            session.send(standardResponses[results.response.index]);
+            session.send("Okay");
             session.replaceDialog('/', session.dialogData);
         }
     }
