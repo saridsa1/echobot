@@ -51,18 +51,16 @@ bot.on('contactRelationUpdate', function (message) {
 
                 var userObj = snapshot.val()[systemUserId];
 
-                var surveyScheduledDateTime = userObj["scheduledDate"];
-
                 var message1 = new builder.Message()
                     .address(message.address)
-                    .text("Hello %s... I am Bumble bee an automated survey bot. I see you have been registered to %s", name || 'there', userObj["trailName"]);
+                    .text("Hello %s... I am Bumble bee an automated questionnaire bot. Please take a quick questionnaire for %s", name || 'there', userObj["trailName"]);
                 bot.send(message1);
 
                 admin.database().ref('/root/users/'+systemUserId).update({"channelAddress" : message.address}, function(){
                     console.log("Update successful");
                     var message2 = new builder.Message()
                         .address(message.address)
-                        .text("Your next survey is on %s", moment(surveyScheduledDateTime).format("dddd, MMMM Do YYYY, h:mm:ss a"));
+                        .text("Your next survey is on %s", moment().add(2, 'm').format("dddd, MMMM Do YYYY, h:mm:ss a"));
                     bot.send(message2);
 
                     scheduleSurvey(userObj, message.address, systemUserId);
@@ -71,7 +69,7 @@ bot.on('contactRelationUpdate', function (message) {
                 console.error(JSON.stringify(errorObject));
                 var message1 = new builder.Message()
                     .address(message.address)
-                    .text("Hello %s... I am Bumble bee an automated survey bot. I see you haven't been registered to survey yet!!", name || 'there');
+                    .text("Hello %s... I am Bumble bee an automated questionnaire bot. I see you haven't been questionnaire to survey yet!!", name || 'there');
 
                 bot.send(message1);
                 var message2 = new builder.Message()
