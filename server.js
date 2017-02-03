@@ -86,6 +86,7 @@ function scheduleSurvey(userObject){
     var surveyScheduledDateTime = userObject["scheduledDate"];
     var formattedDate = new Date(moment(surveyScheduledDateTime).format('YYYY-MM-DD HH:mm:ss'));
 
+    console.log("SCHEDULING THE SURVEY FOR ", moment(surveyScheduledDateTime).format('YYYY-MM-DD HH:mm:ss'));
     scheduler.Job(userObject["trailName"], formattedDate, function(){
         console.log("Starting the survey now");
         /**
