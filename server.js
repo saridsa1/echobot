@@ -89,7 +89,6 @@ bot.on('contactRelationUpdate', function (message) {
 /**
  * Back this out if causing issues
 */
-console.log(tempQuestionnaire);
 var webQuestionnaire = tempQuestionnaire['root']['clinicalTrailInfo']['EQ5D'];
 bot.dialog('/', [
     function (session, args) {
@@ -97,6 +96,8 @@ bot.dialog('/', [
         session.dialogData.index = args ? args.index : 0;
         session.dialogData.form = args ? args.form : {};
         // Prompt user for next field
+        console.log(JSON.stringify(webQuestionnaire));
+
         builder.Prompts.choice(session, webQuestionnaire[session.dialogData.index].QuestionText, webQuestionnaire[session.dialogData.index].Answers);
     },
     function (session, results) {
