@@ -89,14 +89,13 @@ bot.on('contactRelationUpdate', function (message) {
 /**
  * Back this out if causing issues
 */
-var webQuestionnaire = tempQuestionnaire['root']['clinicalTrailInfo']['EQ5D'];
+var webQuestionnaire = tempQuestionnaire['root']['clinicalTrailInfo']['EQ5D']['Questions'];
 bot.dialog('/', [
     function (session, args) {
         // Save previous state (create on first call)
         session.dialogData.index = args ? args.index : 0;
         session.dialogData.form = args ? args.form : {};
         // Prompt user for next field
-        console.log(JSON.stringify(webQuestionnaire));
 
         builder.Prompts.choice(session, webQuestionnaire[session.dialogData.index].QuestionText, webQuestionnaire[session.dialogData.index].Answers);
     },
