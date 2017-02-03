@@ -44,7 +44,10 @@ bot.on('contactRelationUpdate', function (message) {
 
             admin.database().ref('/users').orderByChild('name').equalTo(name).once('value', function(snapshot) {
                 console.log("Look up successful ", JSON.stringify(snapshot.val()));
-                var userObj = snapshot.val()[0];
+
+                var keys = Object.keys(snapshot.val());
+                console.log(keys);
+                var userObj = snapshot.val()[keys[0]];
                 var systemUserId = userObj.id;
                 var surveyScheduledDateTime = userObj["scheduledDate"];
 
