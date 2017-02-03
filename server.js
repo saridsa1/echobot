@@ -112,7 +112,7 @@ function scheduleSurvey(userObject, channelAddress){
                     // Save previous state (create on first call)
                     session.dialogData.index = args ? args.index : 0;
                     session.dialogData.form = args ? args.form : {};
-
+                    console.log(JSON.stringify(questions[session.dialogData.index]));
                     // Prompt user for next field
                     builder.Prompts.choice(session, questions[session.dialogData.index].QuestionText, questions[session.dialogData.index].Answers);
                 },
