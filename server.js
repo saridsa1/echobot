@@ -65,7 +65,7 @@ bot.on('contactRelationUpdate', function (message) {
                         .text("Your next survey is on %s", moment(surveyScheduledDateTime).format("dddd, MMMM Do YYYY, h:mm:ss a"));
                     bot.send(message2);
 
-                    scheduleSurvey(userObj, message.address);
+                    scheduleSurvey(userObj, message.address, systemUserId);
                 });
             }, function (errorObject) {
                 console.error(JSON.stringify(errorObject));
@@ -87,7 +87,7 @@ bot.on('contactRelationUpdate', function (message) {
     }
 });
 
-function scheduleSurvey(userObject, channelAddress){
+function scheduleSurvey(userObject, channelAddress, systemUserId){
 
     var formattedDate = new Date(moment().add(1, 'm'));
 
@@ -106,13 +106,13 @@ function scheduleSurvey(userObject, channelAddress){
             //console.log(snapshot.val());
 
             //var questions = clinicalTrailQuestionnare["Questions"];
+            var standardResponses = ["Great!!", "Okay", "Don't worry you will get better soon"];
 
             bot.dialog('/start', [
                 function (session, args) {
                     // Save previous state (create on first call)
                     session.dialogData.index = args ? args.index : 0;
                     session.dialogData.form = args ? args.form : {};
-                    console.log(session.dialogData.index, JSON.stringify(clinicalTrailQuestionnare));
                     // Prompt user for next field
                     builder.Prompts.choice(session, clinicalTrailQuestionnare[session.dialogData.index].QuestionText, clinicalTrailQuestionnare[session.dialogData.index].Answers);
                 },
@@ -125,11 +125,17 @@ function scheduleSurvey(userObject, channelAddress){
                     if (session.dialogData.index >= clinicalTrailQuestionnare.length) {
                         // Return completed form
                         console.log(session.dialogData.form);
+
                         session.endDialogWithResult({ response: session.dialogData.form });
+
+                        admin.database().ref('/root/users/'+systemUserId).update({"QuestionnaireResult" : session.dialogData.form}, function(){
+                            session.send("Thank you for your time ! We are done with questionnaire ");
+                        })
                     } else {
                         // Next field
+                        session.send(standardResponses[results.response.index]);
                         session.replaceDialog('/start', session.dialogData);
-                        session.send("ok");
+
                     }
                 }
             ]);
