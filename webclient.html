@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Probot Web Client</title>
+    <script type="application/javascript">
+
+        function resizeIFrameToFitContent(iFrame) {
+
+            iFrame.width = iFrame.contentWindow.document.body.scrollWidth;
+            iFrame.height = iFrame.contentWindow.document.body.scrollHeight;
+        }
+
+        window.addEventListener('DOMContentReady', function (e) {
+
+            var iFrame = document.getElementById('iFrame1');
+            resizeIFrameToFitContent(iFrame);
+
+            // or, to resize all iframes:
+            var iframes = document.querySelectorAll("iframe");
+            for (var i = 0; i < iframes.length; i++) {
+                resizeIFrameToFitContent(iframes[i]);
+            }
+        });
+
+    </script>
+    <style type="text/css">
+    	html,body,page{
+    		height:100%;
+    		width:100%;
+    		overflow:hidden;
+    		position:relative;
+    		margin:0px;
+    		padding:0px;
+    	}
+    	.head{
+    		position:absolute;
+    		top:0px;
+    		left:0px;
+    		width:100%;
+    		height:50px;
+    		z-index: 99;
+    		background-color:#2785A7;
+    		color:#fff;
+    		box-sizing: border-box;
+    		line-height:55px;
+    		padding:0px 30px;
+    		font-size:24px;
+    		font-family: 'Segoe UI Semibold',Helvetica,Arial;
+    	}
+    	.head span{
+    		font-size: 12px;
+    		font-family: 'Segoe UI',Arial, Helvetica, sans-serif;
+    		padding-left:20px;
+    	}
+    	.content{
+    		width:100%;
+    		height:100%;
+    	}
+    </style>
+</head>
+<body>
+<div class="page">
+	<div class="head">PROBot <span>knock.. knock.. you are on web...</span></div>
+	<div class="content">
+		<iframe id="iFrame1" style="position: absolute; height: 100%; width: 100%; border: none" src='https://webchat.botframework.com/embed/nvorobot?s=DwjcdnEpmnY.cwA.0qQ.J0r1gsDpcKo_LLds2P1ccHbk41yjXg28CKtMh7wOgTE'></iframe>
+	</div>
+</div>
+
+</body>
+</html>
