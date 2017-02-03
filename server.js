@@ -83,10 +83,10 @@ bot.on('contactRelationUpdate', function (message) {
 
 function scheduleSurvey(userObject){
 
-    var formattedDate = new Date(moment().add(5, 'm'));
+    var formattedDate = new Date(moment().add(3, 'm'));
 
     console.log("SCHEDULING THE SURVEY FOR ", moment(formattedDate).format('YYYY-MM-DD HH:mm:ss'));
-    scheduler.Job(userObject["trailName"], formattedDate, function(){
+    scheduler.scheduleJob(formattedDate, function(){
         console.log("Starting the survey now");
         /**
          * "channelAddress" : {
