@@ -12,7 +12,8 @@ $(document).ready(function(){
 	
 	$(document).on('click','.ci-link',updatePage);
 	
-	$(document).on('click','.add-questionnaire',function(){
+	$(document).on('click','.add-questionnaire',function(e){
+		e.preventDefault();
 		var $modal = $('#myModal');
 		var qId = $modal.find('.ques-select>select').val();
 		var times = $modal.find('.ques-times').val();	
@@ -22,6 +23,10 @@ $(document).ready(function(){
 		    frequency: freq,
 		    times: times
 		  });
+		studies[curr_study].questionnaires[qId]={
+		    frequency: freq,
+		    times: times
+		 };
 		$modal.modal('hide');
 		loadStudy(curr_study);
 	});
@@ -58,6 +63,7 @@ function initSite(){
 			  		studies = snapshot.val();
 			  		var keys = Object.keys(studies);
 			  		var $ul = $('.navbar-left>.dropdown>ul');
+			  		$ul.html("");
 			  		$.each(keys,function(i,v){
 			  			$ul.append('<li data-id="'+v+'"><a href="#">'+v+'</a></li>');
 			  		});
