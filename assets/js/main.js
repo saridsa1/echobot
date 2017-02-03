@@ -70,7 +70,7 @@ function initSite(){
 		  		$ul.html("");
 		  		$.each(keys,function(i,v){
 		  			$ul.append('<li data-id="'+v+'"><a href="#">'+v+'</a></li>');
-		  			$sl.append('<tr><td>'+v+'</td><td class="td-actions text-right"><button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs"><i class="fa fa-edit"></i></button><button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs"><i class="fa fa-times"></i></button></td></tr>');
+		  			$sl.append('<tr><td>'+v+'</td><td class="td-actions text-right"><button class="btn btn-simple btn-xs">Active</button><button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs"><i class="fa fa-edit"></i></button><button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs"><i class="fa fa-times"></i></button></td></tr>');
 		  		});
 		  		loadStudy(keys[0]);
 	
