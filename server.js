@@ -52,7 +52,7 @@ bot.on('contactRelationUpdate', function (message) {
 
                 var surveyScheduledDateTime = userObj["scheduledDate"];
 
-                var formattedDate = moment(surveyScheduledDateTime, 'DD/MM/YYYY');
+                var formattedDate = moment(surveyScheduledDateTime, 'YYYY-MM-DD HH:mm:ss');
                 var message1 = new builder.Message()
                     .address(message.address)
                     .text("Hello %s... I am Bumble bee an automated survey bot. I see you have been registered to %s", name || 'there', userObj["trailName"]);
