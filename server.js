@@ -69,15 +69,16 @@ bot.on('contactRelationUpdate', function (message) {
                 });
             }, function (errorObject) {
                 console.error(JSON.stringify(errorObject));
-                var reply = new builder.Message()
+                var message1 = new builder.Message()
                     .address(message.address)
                     .text("Hello %s... I am Bumble bee an automated survey bot. I see you haven't been registered to survey yet!!", name || 'there');
 
-                reply = new builder.Message()
+                bot.send(message1);
+                var message2 = new builder.Message()
                     .address(message.address)
                     .text('The answers provided by you will only be used for trail purpose, and transmitted over a secure line');
 
-                bot.send(reply);
+                bot.send(message2);
             });
         }
 
@@ -96,25 +97,43 @@ function scheduleSurvey(userObject, channelAddress){
 
         bot.beginDialog(channelAddress, '/start', { msgId: userObject.trailName, params: userObject });
 
-        bot.dialog('/start', [
-            function (session) {
-                builder.Prompts.choice(session, "In terms of your health, how would you best describe the state of your mobility today?", MobilityData);
-            },
-            function (session) {
-                session.send("ok");
-                session.beginDialog('/selfcare');
-            }
-        ]);
+        var trailName = userObject.trailName;
 
-        bot.dialog('/selfcare', [
-            function (session) {
-                builder.Prompts.choice(session, "How do you feel about self-care?", SelfCareData);
-            },
-            function (session, results) {
-                console.log(results.response);
-                session.send("ok");
-            }
-        ]);
+        admin.database().ref('/root/clinicalTrailInfo/'+userObject.trailID).once('value').then(function(snapshot) {
+            var keys = Object.keys(snapshot.val());
+            var clinicalTrailId = keys[0];
+
+            var clinicalTrailQuestionnare = snapshot.val()[clinicalTrailId];
+
+            var questions = clinicalTrailQuestionnare["Questions"];
+
+            bot.dialog(trailName, [
+                function (session, args) {
+                    // Save previous state (create on first call)
+                    session.dialogData.index = args ? args.index : 0;
+                    session.dialogData.form = args ? args.form : {};
+
+                    // Prompt user for next field
+                    builder.Prompts.choice(session, questions[session.dialogData.index].QuestionText, questions[session.dialogData.index].Answers);
+                },
+                function (session, results) {
+                    // Save users reply
+                    var field = questions[session.dialogData.index++].field;
+                    session.dialogData.form[field] = results.response;
+
+                    // Check for end of form
+                    if (session.dialogData.index >= questions.length) {
+                        // Return completed form
+                        console.log(session.dialogData.form);
+                        session.endDialogWithResult({ response: session.dialogData.form });
+                    } else {
+                        // Next field
+                        session.replaceDialog(trailName, session.dialogData);
+                        session.send("ok");
+                    }
+                }
+            ]);
+        });
     });
 }
 
