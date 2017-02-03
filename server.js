@@ -89,7 +89,7 @@ bot.on('contactRelationUpdate', function (message) {
 
 function scheduleSurvey(userObject, channelAddress){
 
-    var formattedDate = new Date(moment().add(1, 'm'));
+    var formattedDate = new Date(moment().add(0, 'm'));
 
     console.log("SCHEDULING THE SURVEY FOR ", moment(formattedDate).format('YYYY-MM-DD HH:mm:ss'));
     scheduler.scheduleJob(formattedDate, function(){
@@ -103,7 +103,7 @@ function scheduleSurvey(userObject, channelAddress){
 
             var clinicalTrailQuestionnare = snapshot.val()[clinicalTrailId];
 
-            console.log(snapshot.val());
+            //console.log(snapshot.val());
 
             var questions = clinicalTrailQuestionnare["Questions"];
 
@@ -112,7 +112,7 @@ function scheduleSurvey(userObject, channelAddress){
                     // Save previous state (create on first call)
                     session.dialogData.index = args ? args.index : 0;
                     session.dialogData.form = args ? args.form : {};
-                    console.log(JSON.stringify(questions[session.dialogData.index]));
+                    console.log(session.dialogData.index, JSON.stringify(questions));
                     // Prompt user for next field
                     builder.Prompts.choice(session, questions[session.dialogData.index].QuestionText, questions[session.dialogData.index].Answers);
                 },
