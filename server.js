@@ -33,8 +33,6 @@ admin.initializeApp({
 var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
-var MobilityData = ["I have no problems in walking about", "I have some problems in walking about", "I am confined to Bed"];
-var SelfCareData = ["I have no problems with self care", "I have some problems washing or dressing myself", "I am unable to wash or dress myself"];
 
 bot.on('contactRelationUpdate', function (message) {
     if (message.action === 'add') {
@@ -63,6 +61,12 @@ bot.on('contactRelationUpdate', function (message) {
                         .text("Your next survey is on %s", moment().add(2, 'm').format("dddd, MMMM Do YYYY, h:mm:ss a"));
                     bot.send(message2);
 
+                    var message3 = new builder.Message()
+                        .address(message.address)
+                        .text('The answers provided by you will only be used for trail purpose, and transmitted over a secure line');
+
+                    bot.send(message3);
+
                     scheduleSurvey(userObj, message.address, systemUserId);
                 });
             }, function (errorObject) {
@@ -72,11 +76,7 @@ bot.on('contactRelationUpdate', function (message) {
                     .text("Hello %s... I am Bumble bee an automated questionnaire bot. I see you haven't been questionnaire to survey yet!!", name || 'there');
 
                 bot.send(message1);
-                var message2 = new builder.Message()
-                    .address(message.address)
-                    .text('The answers provided by you will only be used for trail purpose, and transmitted over a secure line');
 
-                bot.send(message2);
             });
         }
 
