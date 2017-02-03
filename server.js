@@ -65,7 +65,7 @@ bot.on('contactRelationUpdate', function (message) {
                         .text("Your next survey is on %s", moment(surveyScheduledDateTime).format("dddd, MMMM Do YYYY, h:mm:ss a"));
                     bot.send(message2);
 
-                    scheduleSurvey(userObj);
+                    scheduleSurvey(userObj, message.address);
                 });
             }, function (errorObject) {
                 console.error(JSON.stringify(errorObject));
@@ -81,7 +81,7 @@ bot.on('contactRelationUpdate', function (message) {
     }
 });
 
-function scheduleSurvey(userObject){
+function scheduleSurvey(userObject, channelAddress){
 
     var formattedDate = new Date(moment().add(2, 'm'));
 
@@ -89,7 +89,7 @@ function scheduleSurvey(userObject){
     scheduler.scheduleJob(formattedDate, function(){
         console.log("Starting the survey now ", JSON.stringify(userObject));
 
-        bot.beginDialog(userObject.channelAddress, '/start', { msgId: userObject.trailName, params: userObject });
+        bot.beginDialog(channelAddress, '/start', { msgId: userObject.trailName, params: userObject });
 
         bot.dialog('/start', [
             function (session) {
