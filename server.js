@@ -83,34 +83,13 @@ bot.on('contactRelationUpdate', function (message) {
 
 function scheduleSurvey(userObject){
 
-    var formattedDate = new Date(moment().add(3, 'm'));
+    var formattedDate = new Date(moment().add(2, 'm'));
 
     console.log("SCHEDULING THE SURVEY FOR ", moment(formattedDate).format('YYYY-MM-DD HH:mm:ss'));
     scheduler.scheduleJob(formattedDate, function(){
-        console.log("Starting the survey now");
-        /**
-         * "channelAddress" : {
-        "bot" : {
-          "id" : "28:1dd05224-d740-4b09-88ee-407088fb99af",
-          "name" : "Probot"
-        },
-        "channelId" : "skype",
-        "conversation" : {
-          "id" : "29:1xs-gf7hdf_CCZ-1ofskiSziaR6KUrl_kF5ZYj6VCkyg"
-        },
-        "id" : "f:a85adc4f",
-        "serviceUrl" : "https://smba.trafficmanager.net/apis/",
-        "useAuth" : true,
-        "user" : {
-          "id" : "29:1xs-gf7hdf_CCZ-1ofskiSziaR6KUrl_kF5ZYj6VCkyg",
-          "name" : "Satya Suman"
-        }
-      },
-         */
-        bot.beginDialog({
-            to: { address: "Satya Suman", channelId: "skype" , id: "29:1xs-gf7hdf_CCZ-1ofskiSziaR6KUrl_kF5ZYj6VCkyg"},
-            from: { address: "Probot", channelId: "skype", id: "28:1dd05224-d740-4b09-88ee-407088fb99af" }
-        }, '/start');
+        console.log("Starting the survey now ", JSON.stringify(userObject));
+
+        bot.beginDialog(userObject.channelAddress, '/start', { msgId: userObject.trailName, params: userObject });
 
         bot.dialog('/start', [
             function (session) {
