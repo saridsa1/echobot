@@ -97,8 +97,6 @@ function scheduleSurvey(userObject, channelAddress){
 
         bot.beginDialog(channelAddress, '/start', { msgId: userObject.trailName, params: userObject });
 
-        var trailName = userObject.trailName;
-
         admin.database().ref('/root/clinicalTrailInfo/'+userObject.trailID).once('value').then(function(snapshot) {
             var keys = Object.keys(snapshot.val());
             var clinicalTrailId = keys[0];
@@ -107,7 +105,7 @@ function scheduleSurvey(userObject, channelAddress){
 
             var questions = clinicalTrailQuestionnare["Questions"];
 
-            bot.dialog(trailName, [
+            bot.dialog('/start', [
                 function (session, args) {
                     // Save previous state (create on first call)
                     session.dialogData.index = args ? args.index : 0;
@@ -128,7 +126,7 @@ function scheduleSurvey(userObject, channelAddress){
                         session.endDialogWithResult({ response: session.dialogData.form });
                     } else {
                         // Next field
-                        session.replaceDialog(trailName, session.dialogData);
+                        session.replaceDialog('/start', session.dialogData);
                         session.send("ok");
                     }
                 }
