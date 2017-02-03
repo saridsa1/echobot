@@ -72,6 +72,11 @@ bot.on('contactRelationUpdate', function (message) {
                 var reply = new builder.Message()
                     .address(message.address)
                     .text("Hello %s... I am Bumble bee an automated survey bot. I see you haven't been registered to survey yet!!", name || 'there');
+
+                reply = new builder.Message()
+                    .address(message.address)
+                    .text('The answers provided by you will only be used for trail purpose, and transmitted over a secure line');
+
                 bot.send(reply);
             });
         }
