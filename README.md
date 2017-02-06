@@ -1,11 +1,9 @@
-# echobot
-A sample bot for getting started with Bot Framework
+# Probot
+A sample bot for demonstrating the usage of the popular messaging platform skype to enable PRO. This repository was created as a part of Hackathon 2017\
 
-This repo is an example of using Node.js to build a bot, which is hosted on Azure and uses continuous deployment from Github.
+This repo uses Node.js to build a bot, which is hosted on Azure and uses continuous deployment from Github.
 
 Here's how to use this bot as a starter template for your own Node.js based bot:
-
-*note: in the examples below, replace "echobotsample" with your bot ID for any settings or URLs.*
 
 1. Fork this repo.
 2. Create an Azure web app.
@@ -31,3 +29,6 @@ Here's how to use this bot as a starter template for your own Node.js based bot:
 * Azure "knows" your app is a NodeJs app by the presence of the "server.js" file. Renaming this file may possibly cause Azure to not execute NodeJs code.
 * Azure app settings become NodeJS process.env variables.
 * Use https when specifying URLs in the Bot Framework developer portal. Your app secret will not be transmitted unless it is secure.
+* The sample data structure JSON file included in this repository is a contains a sample database that is uploaded to firebase
+* The firebase JSON file is included to perform the authorization to firebase
+* An out bound rule needs to be implemented in the Azure VM to enable access to firebase
